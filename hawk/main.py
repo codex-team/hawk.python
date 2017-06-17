@@ -39,6 +39,7 @@ class Hawk:
 
         event = {
             'token': self.token,
+            'domain': self.domain,
             'message': ex_message,
             'errorLocation': {
                 'file': file,
