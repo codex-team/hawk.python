@@ -12,7 +12,7 @@ class Hawk:
         self.token = None
         self.domain = None
 
-        self.host = 'howk.io'
+        self.host = 'hawk.io'
         self.path = 'catcher/python'
         self.url = 'https://' + self.host + '/' + self.path
 
@@ -35,7 +35,16 @@ class Hawk:
 
         file = error_frame.tb_frame.f_code.co_filename
         line = error_frame.tb_lineno
-        stack = ''.join(traceback.format_exception(exc_cls, exc, tb))
+        stack = traceback.extract_tb(tb)
+
+        formated_stack = []
+        for summary in stack:
+            formated_stack.append({
+                'file': summary[0],
+                'line': summary[1],
+                'func': summary[2],
+                'text': summary[3]
+            })
 
         event = {
             'token': self.token,
@@ -46,10 +55,14 @@ class Hawk:
                 'line': line,
                 'full': file + ' -> ' + str(line)
             },
-            'stack': stack,
+            'stack': formated_stack,
             'time': time.time()
         }
-        result = requests.post(self.url, json=event)
+
+        try:
+            requests.post(self.url, json=event)
+        except Exception as e:
+            print('[Hawk] Cant send error because of', e)
 
     def __call__(self):
         self.handler(*sys.exc_info())
