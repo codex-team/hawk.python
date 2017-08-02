@@ -1,7 +1,7 @@
 hawk.python
 ===========
 
-Python errors catcher module for `Hawk.so <https://hawk.so>`__.
+Python errors Catcher module for `Hawk.so <https://hawk.so>`__.
 
 Usage
 -----
@@ -17,19 +17,19 @@ You'll get token for the project on email or you can just copy it on
 Install module
 ~~~~~~~~~~~~~~
 
-Install hawkcatcher from PyPI.
+Install ``hawkcatcher`` from PyPI.
 
 .. code:: bash
 
     $ pip3 install hawkcatcher
 
-Import catcher module to your project.
+Import Catcher module to your project.
 
 .. code:: python
 
     from hawkcatcher import Hawk
 
-Then initialize Hawk class.
+Then initialize Hawk class with your token.
 
 .. code:: python
 
