@@ -10,28 +10,28 @@ class Hawk:
     __name__ = "hawkcatcher"
 
     def __init__(self, settings):
-    """
-    Init Hawk Catcher class with params.
-    Set exceptions hook.
+        """
+        Init Hawk Catcher class with params.
+        Set exceptions hook.
 
-    :param settings String|Dict: init params
+        :param settings String|Dict: init params
 
-    {String} settings = '1234567-abcd-8901-efgh-123456789012'
-        Pass your project token
+        {String} settings = '1234567-abcd-8901-efgh-123456789012'
+            Pass your project token
 
-    {Object} settings = {
-        'token': '1234567-abcd-8901-efgh-123456789012',
-            Project token from Hawk
-        'domain': 'myproject.codex',
-            Domain name
-        'host': 'hawk.so',
-            Hostname for your Hawk server
-        'path': 'catcher/python',
-            Route for this catcher
-        'secure': True
-            https or http
-    }
-    """
+        {Object} settings = {
+            'token': '1234567-abcd-8901-efgh-123456789012',
+                Project token from Hawk
+            'domain': 'myproject.codex',
+                Domain name
+            'host': 'hawk.so',
+                Hostname for your Hawk server
+            'path': 'catcher/python',
+                Route for this catcher
+            'secure': True
+                https or http
+        }
+        """
 
         if type(settings).__name__ == 'str':
             settings = {
@@ -46,12 +46,12 @@ class Hawk:
             'path': settings.get('path', 'catcher/python'),
         }
 
-        if (not self.params['token']):
+        if not self.params['token']:
             print('Token is missed. Check init params.')
             return
 
         # TODO remove it
-        if (not self.params['domain']):
+        if not self.params['domain']:
             print('Domain is missed. Check init params.')
             return
         ###
@@ -63,13 +63,13 @@ class Hawk:
         sys.excepthook = self.handler
 
     def handler(self, exc_cls, exc, tb):
-    """
-    Catch, prepare and send error
+        """
+        Catch, prepare and send error
 
-    :param exc_cls String: error type
-    :param exc String: error value
-    :param tb String: traceback
-    """
+        :param exc_cls String: error type
+        :param exc String: error value
+        :param tb String: traceback
+        """
 
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         print(ex_message)
@@ -106,7 +106,7 @@ class Hawk:
 
         try:
             r = requests.post(self.params['url'], json=event)
-            response = r.content
+            response = r.content.decode('utf-8')
             print('[Hawk] Response: %s' % response)
         except Exception as e:
             print('[Hawk] Can\'t send error cause of %s' % e)
