@@ -17,7 +17,7 @@ You'll get token for the project on email or you can just copy it on
 Install module
 ~~~~~~~~~~~~~~
 
-Install hawkcatcher from pypi.
+Install hawkcatcher from PyPI.
 
 .. code:: bash
 
@@ -29,7 +29,7 @@ Import catcher module to your project.
 
     from hawkcatcher import Hawk
 
-Then initiate Hawk class.
+Then initialize Hawk class.
 
 .. code:: python
 
@@ -53,7 +53,7 @@ except:
 Custom Exceptions
 ~~~~~~~~~~~~~~~~~
 
-You can raise any exception and it would be catched.
+You can raise any exception and it would be caught.
 
 .. code:: python
 
