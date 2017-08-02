@@ -19,7 +19,7 @@ class Hawk:
         {String} settings = '1234567-abcd-8901-efgh-123456789012'
             Pass your project token
 
-        {Object} settings = {
+        {Dictionary} settings = {
             'token': '1234567-abcd-8901-efgh-123456789012',
                 Project token from Hawk
             'domain': 'myproject.codex',
@@ -66,9 +66,9 @@ class Hawk:
         """
         Catch, prepare and send error
 
-        :param exc_cls String: error type
-        :param exc String: error value
-        :param tb String: traceback
+        :param exc_cls: error class
+        :param exc: exception
+        :param tb: exception traceback
         """
 
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]

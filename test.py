@@ -10,11 +10,13 @@ Hawk({
 
 # h = Hawk('1f082ab4-ca62-409a-82b7-e15985b270f3')
 
+
 try:
     tokfghcdxcghvbjknl.a()
 except:
-
-
     raise
     # raise Exception()
     # Hawk.catch()
+
+
+xcghvbjknl.a()
