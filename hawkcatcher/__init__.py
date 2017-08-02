@@ -12,6 +12,8 @@ class Hawk:
     def __init__(self, settings):
     """
     Init Hawk Catcher class with params.
+    Set exceptions hook.
+
     :param settings String|Dict: init params
 
     {String} settings = '1234567-abcd-8901-efgh-123456789012'
