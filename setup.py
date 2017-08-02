@@ -5,7 +5,7 @@ setup(
     name='hawkcatcher',
     version='0.1.0',
     packages = find_packages(),
-    description='Python errors catcher module for Hawk.',
+    description='Python errors Catcher module for Hawk.',
     long_description=open(join(dirname(__file__), 'README.rst')).read(),
     keywords='catcher hawk codex bug errors tracker',
     url='https://github.com/codex-team/deployserver',

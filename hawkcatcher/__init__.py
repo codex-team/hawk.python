@@ -10,6 +10,26 @@ class Hawk:
     __name__ = "hawkcatcher"
 
     def __init__(self, settings):
+    """
+    Init Hawk Catcher class with params.
+    :param settings String|Dict: init params
+
+    {String} settings = '1234567-abcd-8901-efgh-123456789012'
+        Pass your project token
+
+    {Object} settings = {
+        'token': '1234567-abcd-8901-efgh-123456789012',
+            Project token from Hawk
+        'domain': 'myproject.codex',
+            Domain name
+        'host': 'hawk.so',
+            Hostname for your Hawk server
+        'path': 'catcher/python',
+            Route for this catcher
+        'secure': True
+            https or http
+    }
+    """
 
         if type(settings).__name__ == 'str':
             settings = {
@@ -41,6 +61,13 @@ class Hawk:
         sys.excepthook = self.handler
 
     def handler(self, exc_cls, exc, tb):
+    """
+    Catch, prepare and send error
+
+    :param exc_cls String: error type
+    :param exc String: error value
+    :param tb String: traceback
+    """
 
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         print(ex_message)
