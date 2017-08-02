@@ -25,12 +25,12 @@ class Hawk:
         }
 
         if (not self.params['token']):
-            print('Token is missing. Check init params.')
+            print('Token is missed. Check init params.')
             return
 
         # TODO remove it
         if (not self.params['domain']):
-            print('Domain is missing. Check init params.')
+            print('Domain is missed. Check init params.')
             return
         ###
 
