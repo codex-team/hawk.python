@@ -73,7 +73,6 @@ If you need to use custom Hawk server.
 
     hawk = Hawk({
         'token': '1234567-abcd-8901-efgh-123456789012',
-        'domain': 'myproject.codex',
         'host': 'hawk.so',
         'path': 'catcher/python',
         'secure': True,

@@ -21,8 +21,6 @@ class Hawk():
         {Dictionary} settings = {
             'token': '1234567-abcd-8901-efgh-123456789012',
                 Project token from Hawk
-            'domain': 'myproject.codex',
-                Domain name
             'host': 'hawk.so',
                 Hostname for your Hawk server
             'path': 'catcher/python',
@@ -39,7 +37,6 @@ class Hawk():
 
         self.params = {
             'token': settings.get('token', ''),
-            'domain': settings.get('domain', 'guryn.me'),
             'host': settings.get('host', 'hawk.so'),
             'secure': settings.get('secure', True),
             'path': settings.get('path', 'catcher/python'),
@@ -48,12 +45,6 @@ class Hawk():
         if not self.params['token']:
             print('Token is missed. Check init params.')
             return
-
-        # TODO remove it
-        if not self.params['domain']:
-            print('Domain is missed. Check init params.')
-            return
-        ###
 
         self.params['url'] = 'http{}://{}/{}'.format('s' if self.params['secure'] else '',
                                                     self.params['host'],
@@ -92,7 +83,6 @@ class Hawk():
 
         event = {
             'token': self.params['token'],
-            'domain': self.params['domain'],
             'message': ex_message,
             'errorLocation': {
                 'file': file,
