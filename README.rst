@@ -21,7 +21,7 @@ Install ``hawkcatcher`` from PyPI.
 
 .. code:: bash
 
-    $ pip3 install hawkcatcher
+    $ pip install hawkcatcher
 
 Import Catcher module to your project.
 
@@ -29,7 +29,7 @@ Import Catcher module to your project.
 
     from hawkcatcher import Hawk
 
-Then enable Hawk Catcher with your token.
+Then enable Hawk Catcher with your token and domain.
 
 .. code:: python
 
@@ -51,23 +51,18 @@ except:
         hawk.catch()
 
 Init params
------------
+----------------------
 
-There are two way to init Hawk module.
-
-Token
-~~~~~
-
-Just enter a project token.
+To init Hawk Catcher just pass a project token.
 
 .. code:: python
 
     hawk = Hawk('1234567-abcd-8901-efgh-123456789012')
 
-Params dictionary
+Additional params
 ~~~~~~~~~~~~~~~~~
 
-If you need to use custom Hawk server.
+If you need to use custom Hawk server then pass a dictionary with params.
 
 .. code:: python
 

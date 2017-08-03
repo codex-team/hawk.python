@@ -37,9 +37,9 @@ class Hawk():
 
         self.params = {
             'token': settings.get('token', ''),
-            'host': settings.get('host', 'hawk.so'),
-            'secure': settings.get('secure', True),
-            'path': settings.get('path', 'catcher/python'),
+            'host': settings.get('host', 'hawk.so') or 'hawk.so',
+            'secure': settings.get('secure', True) or True,
+            'path': settings.get('path', 'catcher/python') or 'catcher/python',
         }
 
         if not self.params['token']:
