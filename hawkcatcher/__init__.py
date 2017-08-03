@@ -13,10 +13,7 @@ class Hawk():
         Init Hawk Catcher class with params.
         Set exceptions hook.
 
-        :param settings String|Dict: init params
-
-        {String} settings = '1234567-abcd-8901-efgh-123456789012'
-            Pass your project token
+        :param settings Dict: init params
 
         {Dictionary} settings = {
             'token': '1234567-abcd-8901-efgh-123456789012',
@@ -24,22 +21,17 @@ class Hawk():
             'domain': 'myproject.codex',
                 Domain name
             'host': 'hawk.so',
-                Hostname for your Hawk server
+                (optional) Hostname for your Hawk server
             'path': 'catcher/python',
-                Route for this catcher
+                (optional) Route for this catcher
             'secure': True
-                https or http
+                (optional) https or http
         }
         """
 
-        if type(settings).__name__ == 'str':
-            settings = {
-                'token': settings
-            }
-
         self.params = {
             'token': settings.get('token', ''),
-            'domain': settings.get('domain', 'guryn.me'),
+            'domain': settings.get('domain', ''),
             'host': settings.get('host', 'hawk.so'),
             'secure': settings.get('secure', True),
             'path': settings.get('path', 'catcher/python'),
@@ -49,11 +41,10 @@ class Hawk():
             print('Token is missed. Check init params.')
             return
 
-        # TODO remove it
         if not self.params['domain']:
             print('Domain is missed. Check init params.')
             return
-        ###
+
 
         self.params['url'] = 'http{}://{}/{}'.format('s' if self.params['secure'] else '',
                                                     self.params['host'],

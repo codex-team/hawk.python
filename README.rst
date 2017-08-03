@@ -21,7 +21,7 @@ Install ``hawkcatcher`` from PyPI.
 
 .. code:: bash
 
-    $ pip3 install hawkcatcher
+    $ pip install hawkcatcher
 
 Import Catcher module to your project.
 
@@ -29,11 +29,14 @@ Import Catcher module to your project.
 
     from hawkcatcher import Hawk
 
-Then enable Hawk Catcher with your token.
+Then enable Hawk Catcher with your token and domain.
 
 .. code:: python
 
-    hawk = Hawk('1234567-abcd-8901-efgh-123456789012')
+    hawk = Hawk({
+        'token': '1234567-abcd-8901-efgh-123456789012',
+        'domain': 'myproject.codex'
+    })
 
 Now all global errors would be sent to Hawk.
 
@@ -50,21 +53,19 @@ except:
     except:
         hawk.catch()
 
-Init params
------------
+Init params dictionary
+----------------------
 
-There are two way to init Hawk module.
-
-Token
-~~~~~
-
-Just enter a project token.
+To init Hawk Catcher just pass a dictionary with token and domain.
 
 .. code:: python
 
-    hawk = Hawk('1234567-abcd-8901-efgh-123456789012')
+    hawk = Hawk({
+        'token': '1234567-abcd-8901-efgh-123456789012',
+        'domain': 'myproject.codex'
+    })
 
-Params dictionary
+Additional params
 ~~~~~~~~~~~~~~~~~
 
 If you need to use custom Hawk server.
@@ -78,6 +79,11 @@ If you need to use custom Hawk server.
         'path': 'catcher/python',
         'secure': True,
     })
+
+Requirements
+------------
+- Python >= 3.5
+- requests
 
 Links
 -----
