@@ -4,14 +4,11 @@ import time
 import requests
 
 
-class __Hawk():
+class Hawk():
 
     params = {}
 
-    def __init__(self):
-        pass
-
-    def enable(self, settings):
+    def __init__(self, settings):
         """
         Init Hawk Catcher class with params.
         Set exceptions hook.
@@ -118,5 +115,3 @@ class __Hawk():
         Exception processor
         """
         self.handler(*sys.exc_info())
-
-hawk = __Hawk()

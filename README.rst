@@ -27,13 +27,13 @@ Import Catcher module to your project.
 
 .. code:: python
 
-    from hawkcatcher import hawk
+    from hawkcatcher import Hawk
 
 Then enable Hawk Catcher with your token.
 
 .. code:: python
 
-    hawk.enable('1234567-abcd-8901-efgh-123456789012')
+    hawk = Hawk('1234567-abcd-8901-efgh-123456789012')
 
 Now all global errors would be sent to Hawk.
 
@@ -62,7 +62,7 @@ Just enter a project token.
 
 .. code:: python
 
-    hawk.enable('1234567-abcd-8901-efgh-123456789012')
+    hawk = Hawk('1234567-abcd-8901-efgh-123456789012')
 
 Params dictionary
 ~~~~~~~~~~~~~~~~~
@@ -71,7 +71,7 @@ If you need to use custom Hawk server.
 
 .. code:: python
 
-    hawk.enable({
+    hawk = Hawk({
         'token': '1234567-abcd-8901-efgh-123456789012',
         'domain': 'myproject.codex',
         'host': 'hawk.so',
