@@ -22,11 +22,11 @@ class Hawk():
             'token': '1234567-abcd-8901-efgh-123456789012',
                 Project token from Hawk
             'host': 'hawk.so',
-                Hostname for your Hawk server
+                (optional) Hostname for your Hawk server
             'path': 'catcher/python',
-                Route for this catcher
+                (optional) Route for this catcher
             'secure': True
-                https or http
+                (optional) https or http
         }
         """
 

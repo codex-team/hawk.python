@@ -78,6 +78,12 @@ If you need to use custom Hawk server.
         'secure': True,
     })
 
+Requirements
+------------
+
+- Python >= 3.5
+- requests
+
 Links
 -----
 
