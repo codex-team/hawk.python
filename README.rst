@@ -29,18 +29,18 @@ Import Catcher module to your project.
 
     from hawkcatcher import Hawk
 
-Then initialize Hawk class with your token.
+Then enable Hawk Catcher with your token.
 
 .. code:: python
 
-    Hawk('1234567-abcd-8901-efgh-123456789012')
+    hawk = Hawk('1234567-abcd-8901-efgh-123456789012')
 
 Now all global errors would be sent to Hawk.
 
 Try-except
 ~~~~~~~~~~
 
-If you want to catch errors in try-except blocks then use ``raise`` in
+If you want to catch errors in try-except blocks then use ``hawk.catch()`` in
 except:
 
 .. code:: python
@@ -48,30 +48,7 @@ except:
     try:
         ...
     except:
-        raise
-
-Custom Exceptions
-~~~~~~~~~~~~~~~~~
-
-You can raise any exception and it would be caught.
-
-.. code:: python
-
-    raise Exception('I do not understand you')
-
-Also you can use your own exceptions.
-
-.. code:: python
-
-    class MyException(Exception):
-
-        def __init__(self, message):
-            self.message = message
-
-        def __str__(self):
-            return repr(self.message)
-
-    raise MyException('Uhh, what?')
+        hawk.catch()
 
 Init params
 -----------
@@ -85,7 +62,7 @@ Just enter a project token.
 
 .. code:: python
 
-    Hawk('1234567-abcd-8901-efgh-123456789012')
+    hawk = Hawk('1234567-abcd-8901-efgh-123456789012')
 
 Params dictionary
 ~~~~~~~~~~~~~~~~~
@@ -94,7 +71,7 @@ If you need to use custom Hawk server.
 
 .. code:: python
 
-    Hawk({
+    hawk = Hawk({
         'token': '1234567-abcd-8901-efgh-123456789012',
         'domain': 'myproject.codex',
         'host': 'hawk.so',

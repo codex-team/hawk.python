@@ -3,11 +3,10 @@ import sys
 import time
 import requests
 
-class Hawk:
+
+class Hawk():
 
     params = {}
-
-    __name__ = "hawkcatcher"
 
     def __init__(self, settings):
         """
@@ -110,3 +109,9 @@ class Hawk:
             print('[Hawk] Response: %s' % response)
         except Exception as e:
             print('[Hawk] Can\'t send error cause of %s' % e)
+
+    def catch(self):
+        """
+        Exception processor
+        """
+        self.handler(*sys.exc_info())
