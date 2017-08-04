@@ -6,13 +6,7 @@ Python errors Catcher module for `Hawk.so <https://hawk.so>`__.
 Usage
 -----
 
-First of all, you should register an account on
-`hawk.so <https://hawk.so/join>`__.
-
-Then `register your project <https://hawk.so/websites/create>`__.
-
-You'll get token for the project on email or you can just copy it on
-`settings page <https://hawk.so/garage/settings>`__.
+Register an account and get a new project token.
 
 Install module
 ~~~~~~~~~~~~~~
