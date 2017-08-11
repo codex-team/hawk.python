@@ -62,6 +62,7 @@ class Hawk():
         """
 
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
+        ex_message = ex_message.strip()
         print(ex_message)
 
         error_frame = tb
