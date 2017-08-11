@@ -6,13 +6,7 @@ Python errors Catcher module for `Hawk.so <https://hawk.so>`__.
 Usage
 -----
 
-First of all, you should register an account on
-`hawk.so <https://hawk.so/join>`__.
-
-Then `register your project <https://hawk.so/websites/create>`__.
-
-You'll get token for the project on email or you can just copy it on
-`settings page <https://hawk.so/garage/settings>`__.
+Register an account and get a new project token.
 
 Install module
 ~~~~~~~~~~~~~~
@@ -33,10 +27,7 @@ Then enable Hawk Catcher with your token and domain.
 
 .. code:: python
 
-    hawk = Hawk({
-        'token': '1234567-abcd-8901-efgh-123456789012',
-        'domain': 'myproject.codex'
-    })
+    hawk = Hawk('1234567-abcd-8901-efgh-123456789012')
 
 Now all global errors would be sent to Hawk.
 
@@ -53,28 +44,24 @@ except:
     except:
         hawk.catch()
 
-Init params dictionary
+Init params
 ----------------------
 
-To init Hawk Catcher just pass a dictionary with token and domain.
+To init Hawk Catcher just pass a project token.
 
 .. code:: python
 
-    hawk = Hawk({
-        'token': '1234567-abcd-8901-efgh-123456789012',
-        'domain': 'myproject.codex'
-    })
+    hawk = Hawk('1234567-abcd-8901-efgh-123456789012')
 
 Additional params
 ~~~~~~~~~~~~~~~~~
 
-If you need to use custom Hawk server.
+If you need to use custom Hawk server then pass a dictionary with params.
 
 .. code:: python
 
     hawk = Hawk({
         'token': '1234567-abcd-8901-efgh-123456789012',
-        'domain': 'myproject.codex',
         'host': 'hawk.so',
         'path': 'catcher/python',
         'secure': True,
@@ -82,6 +69,7 @@ If you need to use custom Hawk server.
 
 Requirements
 ------------
+
 - Python >= 3.5
 - requests
 
