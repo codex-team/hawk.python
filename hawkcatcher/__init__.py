@@ -129,8 +129,8 @@ class Hawk():
             content = [x.rstrip() for x in content]
 
         # Number of top and bottom strings by target margin
-        start = line - margin
-        end = line + margin
+        start = max(0, line - margin)
+        end = min(len(content), line + margin)
 
         # Trace tuple to be returned
         trace = []
@@ -138,12 +138,14 @@ class Hawk():
         # Cycle index for line number
         index = 1
 
-        for line in content:
-            if index >= start and index <= end:
-                trace.append({
-                    'line': index,
-                    'content': line
-                })
-            index += 1
+        # Get cut of original file
+        lines = content[start:end + 1]
+        for line in range(start, end):
+            trace.append({
+                # +1 because lines in array start from 0
+                'line': line + 1,
+                # Get items from lines array from 0 to end
+                'content': lines[line - start]
+            })
 
         return trace
