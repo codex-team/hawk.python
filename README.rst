@@ -3,6 +3,8 @@ hawk.python
 
 Python errors Catcher module for `Hawk.so <https://hawk.so>`__.
 
+.. image:: https://capella.pics/20896900-5bcf-4383-a38a-c732689f71f0
+
 Usage
 -----
 
