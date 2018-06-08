@@ -2,6 +2,7 @@ import traceback
 import sys
 import time
 import requests
+import os
 
 
 class Hawk():
@@ -37,9 +38,9 @@ class Hawk():
 
         self.params = {
             'token': settings.get('token', ''),
-            'host': settings.get('host', 'hawk.so') or 'hawk.so',
-            'secure': settings.get('secure', True) or True,
-            'path': settings.get('path', 'catcher/python') or 'catcher/python',
+            'host': settings.get('host', 'hawk.so'),
+            'secure': settings.get('secure', True),
+            'path': settings.get('path', 'catcher/python'),
         }
 
         if not self.params['token']:
@@ -60,7 +61,6 @@ class Hawk():
         :param exc: exception
         :param tb: exception traceback
         """
-
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         ex_message = ex_message.strip()
         print(ex_message)
@@ -75,18 +75,25 @@ class Hawk():
 
         formated_stack = []
         for summary in stack:
-            formated_stack.append({
-                'file': summary[0],
+            callee = {
+                'file': os.path.abspath(summary[0]),
                 'line': summary[1],
                 'func': summary[2],
-                'text': summary[3]
-            })
+                'text': summary[3],
+            }
+
+            # Get part of file near string with error
+            callee['trace'] = self.get_near_filelines(callee['file'], callee['line'])
+            formated_stack.append(callee)
+
+        # Reverse stack to have the latest call at the top
+        formated_stack = tuple(reversed(formated_stack))
 
         event = {
             'token': self.params['token'],
             'message': ex_message,
             'errorLocation': {
-                'file': file,
+                'file': os.path.abspath(file),
                 'line': line,
                 'full': file + ' -> ' + str(line)
             },
@@ -106,3 +113,39 @@ class Hawk():
         Exception processor
         """
         self.handler(*sys.exc_info())
+
+    def get_near_filelines(self, filepath, line, margin=5):
+        """
+        Return part of file near the string with error
+
+        :param filepath: path to file
+        :param line: error line
+        :param margin: get that number of strings above and below error
+        :return trace: tuple
+        """
+        # Read file and strip right spaces
+        with open(filepath, 'r') as file:
+            content = file.readlines()
+            content = [x.rstrip() for x in content]
+
+        # Number of top and bottom strings by target margin
+        start = max(0, line - margin)
+        end = min(len(content), line + margin)
+
+        # Trace tuple to be returned
+        trace = []
+
+        # Cycle index for line number
+        index = 1
+
+        # Get cut of original file
+        lines = content[start:end + 1]
+        for line in range(start, end):
+            trace.append({
+                # +1 because lines in array start from 0
+                'line': line + 1,
+                # Get items from lines array from 0 to end
+                'content': lines[line - start]
+            })
+
+        return trace
