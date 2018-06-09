@@ -128,9 +128,35 @@ class Hawk():
             content = file.readlines()
             content = [x.rstrip() for x in content]
 
-        # Number of top and bottom strings by target margin
-        start = max(0, line - margin)
-        end = min(len(content), line + margin)
+        # Calculate upper and lower strings for code fragment
+
+        # Error in 7th line in file <=> 6th element in array
+        error_line_in_array = line - 1
+
+        # Start and end are being counted for lines array
+        # Start from 0 or error_line_in_array - margin
+        start = max(0, error_line_in_array - margin)
+
+        #  file | array
+        #  line | key
+        #     1 |  0
+        # /¯¯ 2 |  1 ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\ # start from 1
+        # |   3 |  2                   |
+        # |   4 |  3                   |
+        # |   5 |  4                   |
+        # |   6 |  5                   |
+        # | [ 7 |  6  raise Error()  ] |
+        # |   8 |  7                   |
+        # |   9 |  8                   |
+        # |  10 |  9                   |
+        # |  11 | 10                   |
+        # \_ 12 | 11 __________________/ # end is 12 because python doesn't get element on the right side of range
+        #    13 | 12
+        #    14 | 13
+        #
+        # End is the last line of code fragment in array plus 1
+        # or the number of code lines in file
+        end = min(len(content), error_line_in_array + margin + 1)
 
         # Trace tuple to be returned
         trace = []
@@ -139,13 +165,13 @@ class Hawk():
         index = 1
 
         # Get cut of original file
-        lines = content[start:end + 1]
-        for line in range(start, end):
+        lines = content[start:end]
+        for array_line in range(start, end):
             trace.append({
                 # +1 because lines in array start from 0
-                'line': line + 1,
-                # Get items from lines array from 0 to end
-                'content': lines[line - start]
+                'line': array_line + 1,
+                # Get item from lines array
+                'content': lines[array_line - start]
             })
 
         return trace
