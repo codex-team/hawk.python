@@ -61,39 +61,57 @@ class Hawk():
         :param exc: exception
         :param tb: exception traceback
         """
+        # Get error message and print it
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         ex_message = ex_message.strip()
         print(ex_message)
 
+        # Get last error frame
         error_frame = tb
         while error_frame.tb_next is not None:
             error_frame = error_frame.tb_next
 
-        file = error_frame.tb_frame.f_code.co_filename
+        # Get file and error line
+        file = os.path.abspath(error_frame.tb_frame.f_code.co_filename)
         line = error_frame.tb_lineno
-        stack = traceback.extract_tb(tb)
 
+        # Get stack frames
+        stack = []
+        traceback_frame = error_frame.tb_frame
+        while traceback_frame:
+            stack.append(traceback_frame)
+            traceback_frame = traceback_frame.f_back
+
+        # Format stack
         formated_stack = []
-        for summary in stack:
+        for frame in stack:
+            # Add file, line, function name,
             callee = {
-                'file': os.path.abspath(summary[0]),
-                'line': summary[1],
-                'func': summary[2],
-                'text': summary[3],
+                'file': os.path.abspath(frame.f_code.co_filename),
+                'line': frame.f_lineno,
+                'func': frame.f_code.co_name,
+                'vars': []
             }
+
+            # Add available vars
+            for key, value in frame.f_locals.items():
+                try:
+                    callee['vars'].append({
+                        'key': key,
+                        'value': str(value)
+                    })
+                except:
+                    pass
 
             # Get part of file near string with error
             callee['trace'] = self.get_near_filelines(callee['file'], callee['line'])
             formated_stack.append(callee)
 
-        # Reverse stack to have the latest call at the top
-        formated_stack = tuple(reversed(formated_stack))
-
         event = {
             'token': self.params['token'],
             'message': ex_message,
             'errorLocation': {
-                'file': os.path.abspath(file),
+                'file': file,
                 'line': line,
                 'full': file + ' -> ' + str(line)
             },
