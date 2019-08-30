@@ -89,14 +89,20 @@ class Hawk():
             'token': self.params['token'],
             'catcherType': 'errors/python',
             'payload': {
-                'message': ex_message,
-                'errorLocation': {
-                    'file': os.path.abspath(file),
-                    'line': line,
-                    'full': file + ' -> ' + str(line)
-                },
-                'stack': formated_stack,
-                'time': time.time()
+                'title': ex_message,
+                'release': None,
+                'timestamp': time.time(),
+                'backtrace': None,
+                'get': None,
+                'user': None,
+                'context': {
+                    'errorLocation': {
+                        'file': os.path.abspath(file),
+                        'line': line,
+                        'full': file + ' -> ' + str(line)
+                    },
+                    'stack': formated_stack,
+                }
             }
         }
 
