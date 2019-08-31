@@ -59,7 +59,6 @@ class Hawk():
         """
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         ex_message = ex_message.strip()
-        print(ex_message)
 
         error_frame = tb
         while error_frame.tb_next is not None:
@@ -69,7 +68,7 @@ class Hawk():
         line = error_frame.tb_lineno
         stack = traceback.extract_tb(tb)
 
-        formated_stack = []
+        backtrace = []
         for summary in stack:
             callee = {
                 'file': os.path.abspath(summary[0]),
@@ -79,26 +78,26 @@ class Hawk():
             }
 
             # Get part of file near string with error
-            callee['trace'] = self.get_near_filelines(callee['file'], callee['line'])
-            formated_stack.append(callee)
+            callee['sourceCode'] = self.get_near_filelines(callee['file'], callee['line'])
+            backtrace.append(callee)
 
         # Reverse stack to have the latest call at the top
-        formated_stack = tuple(reversed(formated_stack))
+        backtrace = tuple(reversed(backtrace))
 
         event = {
             'token': self.params['token'],
             'catcherType': 'errors/python',
             'payload': {
-                'message': ex_message,
-                'errorLocation': {
-                    'file': os.path.abspath(file),
-                    'line': line,
-                    'full': file + ' -> ' + str(line)
-                },
-                'stack': formated_stack,
-                'time': time.time()
+                'title': ex_message,
+                'backtrace': backtrace,
+                'timestamp': time.time(),
+                'level': 5,
+                'headers': {},
+                'addons': {}
             }
         }
+
+        print(backtrace)
 
         try:
             r = requests.post(self.params['url'], json=event)
