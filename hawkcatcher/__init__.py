@@ -17,15 +17,13 @@ class Hawk():
         :param settings String|Dict: init params
 
         {String} settings = '1234567-abcd-8901-efgh-123456789012'
-            Pass your project token
+            Pass your project JWT token
 
         {Dictionary} settings = {
-            'token': '1234567-abcd-8901-efgh-123456789012',
-                Project token from Hawk
+            'token': 'eyJhbGciOiJIUz<...>WyQPiqc',
+                Project JWT token from Hawk
             'host': 'hawk.so',
                 (optional) Hostname for your Hawk server
-            'path': 'catcher/python',
-                (optional) Route for this catcher
             'secure': True
                 (optional) https or http
         }
@@ -40,16 +38,14 @@ class Hawk():
             'token': settings.get('token', ''),
             'host': settings.get('host', 'hawk.so'),
             'secure': settings.get('secure', True),
-            'path': settings.get('path', 'catcher/python'),
         }
 
         if not self.params['token']:
             print('Token is missed. Check init params.')
             return
 
-        self.params['url'] = 'http{}://{}/{}'.format('s' if self.params['secure'] else '',
-                                                    self.params['host'],
-                                                    self.params['path'])
+        self.params['url'] = 'http{}://{}/'.format('s' if self.params['secure'] else '',
+                                                    self.params['host'])
 
         sys.excepthook = self.handler
 
@@ -63,7 +59,6 @@ class Hawk():
         """
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         ex_message = ex_message.strip()
-        print(ex_message)
 
         error_frame = tb
         while error_frame.tb_next is not None:
@@ -73,7 +68,7 @@ class Hawk():
         line = error_frame.tb_lineno
         stack = traceback.extract_tb(tb)
 
-        formated_stack = []
+        backtrace = []
         for summary in stack:
             callee = {
                 'file': os.path.abspath(summary[0]),
@@ -83,22 +78,22 @@ class Hawk():
             }
 
             # Get part of file near string with error
-            callee['trace'] = self.get_near_filelines(callee['file'], callee['line'])
-            formated_stack.append(callee)
+            callee['sourceCode'] = self.get_near_filelines(callee['file'], callee['line'])
+            backtrace.append(callee)
 
         # Reverse stack to have the latest call at the top
-        formated_stack = tuple(reversed(formated_stack))
+        backtrace = tuple(reversed(backtrace))
 
         event = {
             'token': self.params['token'],
-            'message': ex_message,
-            'errorLocation': {
-                'file': os.path.abspath(file),
-                'line': line,
-                'full': file + ' -> ' + str(line)
-            },
-            'stack': formated_stack,
-            'time': time.time()
+            'catcherType': 'errors/python',
+            'payload': {
+                'title': ex_message,
+                'backtrace': backtrace,
+                'timestamp': time.time(),
+                'headers': {},
+                'addons': {}
+            }
         }
 
         try:
