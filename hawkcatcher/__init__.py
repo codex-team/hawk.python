@@ -91,13 +91,10 @@ class Hawk():
                 'title': ex_message,
                 'backtrace': backtrace,
                 'timestamp': time.time(),
-                'level': 5,
                 'headers': {},
                 'addons': {}
             }
         }
-
-        print(backtrace)
 
         try:
             r = requests.post(self.params['url'], json=event)
