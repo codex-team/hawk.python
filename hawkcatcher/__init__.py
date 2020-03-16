@@ -16,7 +16,7 @@ class Hawk():
 
         :param settings String|Dict: init params
 
-        {String} settings = '1234567-abcd-8901-efgh-123456789012'
+        {String} settings = 'eyJhbGciOiJIUz<...>WyQPiqc'
             Pass your project JWT token
 
         {Dictionary} settings = {
@@ -89,7 +89,6 @@ class Hawk():
             'payload': {
                 'title': ex_message,
                 'backtrace': backtrace,
-                'timestamp': time.time(),
                 'headers': {},
                 'addons': {}
             }

@@ -3,7 +3,7 @@ from os.path import join, dirname
 
 setup(
     name='hawkcatcher',
-    version='1.2.0',
+    version='2.0.0',
     packages = find_packages(),
     description='Python errors Catcher module for Hawk.',
     long_description=open(join(dirname(__file__), 'README.rst')).read(),
