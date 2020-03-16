@@ -20,6 +20,7 @@ class TestModule:
     def testMethod(self):
         helperFunction()
 
+
 if __name__ == "__main__":
     try:
         TestModule()
