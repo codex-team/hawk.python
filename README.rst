@@ -65,7 +65,6 @@ If you need to use custom Hawk server then pass a dictionary with params.
     hawk = Hawk({
         'token': '1234567-abcd-8901-efgh-123456789012',
         'host': 'hawk.so',
-        'path': 'catcher/python',
         'secure': True,
     })
 
