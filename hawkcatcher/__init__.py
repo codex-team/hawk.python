@@ -78,12 +78,11 @@ class Hawk():
             callee = {
                 'file': os.path.abspath(summary[0]),
                 'line': summary[1],
-                'func': summary[2],
-                'text': summary[3],
+                'function': summary[2],
             }
 
             # Get part of file near string with error
-            callee['trace'] = self.get_near_filelines(callee['file'], callee['line'])
+            callee['sourceCode'] = self.get_near_filelines(callee['file'], callee['line'])
             formated_stack.append(callee)
 
         # Reverse stack to have the latest call at the top
@@ -91,14 +90,17 @@ class Hawk():
 
         event = {
             'token': self.params['token'],
-            'message': ex_message,
-            'errorLocation': {
-                'file': os.path.abspath(file),
-                'line': line,
-                'full': file + ' -> ' + str(line)
-            },
-            'stack': formated_stack,
-            'time': time.time()
+            'catcherType': 'errors/python',
+            'payload': {
+                'title': ex_message,
+                'errorLocation': {
+                    'file': os.path.abspath(file),
+                    'line': line,
+                    'full': file + ' -> ' + str(line)
+                },
+                'backtrace': formated_stack,
+                'timestamp': time.time()
+            }
         }
 
         try:
