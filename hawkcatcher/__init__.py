@@ -66,14 +66,17 @@ class Hawk():
 
         file = error_frame.tb_frame.f_code.co_filename
         line = error_frame.tb_lineno
+
         stack = traceback.extract_tb(tb)
 
         backtrace = []
+
+        # summary - https://docs.python.org/3/library/traceback.html#traceback.FrameSummary
         for summary in stack:
             callee = {
-                'file': os.path.abspath(summary[0]),
-                'line': summary[1],
-                'function': summary[2],
+                'file': os.path.abspath(summary.filename),
+                'line': summary.lineno,
+                'function': summary.name,
             }
 
             # Get part of file near string with error
