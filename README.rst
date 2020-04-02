@@ -29,7 +29,12 @@ Then enable Hawk Catcher with your token and domain.
 
 .. code:: python
 
-    hawk = Hawk('1234567-abcd-8901-efgh-123456789012')
+    hawk = Hawk({
+        'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0SWQiOiI1ZTZmNWM3NzAzOWI0MDAwMjNmZDViODAiLCJpYXQiOjE1ODQzNTY0NzF9.t-5Gelx3MgHVBrxTsoMyPQAdQ6ufVbPsts9zZLW3gM8',
+        'host': 'localhost:3000',
+        'path': '/',
+        'secure': False,
+    })
 
 Now all global errors would be sent to Hawk.
 
@@ -65,7 +70,6 @@ If you need to use custom Hawk server then pass a dictionary with params.
     hawk = Hawk({
         'token': '1234567-abcd-8901-efgh-123456789012',
         'host': 'hawk.so',
-        'path': 'catcher/python',
         'secure': True,
     })
 
