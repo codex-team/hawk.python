@@ -1,12 +1,19 @@
-from setuptools import setup, find_packages
 from os.path import join, dirname
+
+from setuptools import setup, find_packages
+
+
+def load_doc():
+    with open(join(dirname(__file__), 'README.rst')) as file:
+        return file.read()
+
 
 setup(
     name='hawkcatcher',
     version='2.0.0',
-    packages = find_packages(),
+    packages=find_packages(),
     description='Python errors Catcher module for Hawk.',
-    long_description=open(join(dirname(__file__), 'README.rst')).read(),
+    long_description=load_doc(),
     keywords='catcher hawk codex bug errors tracker',
     url='https://github.com/codex-team/deployserver',
     author='CodeX Team',
