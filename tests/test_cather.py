@@ -1,3 +1,5 @@
+from unittest.mock import Mock
+
 import pytest
 
 from hawkcatcher import Hawk
@@ -40,3 +42,25 @@ def test_settings_parsing():
     }
 
     assert settings == right_settings
+
+
+def test_manual_sending(mocker):
+    hawk = Hawk(sample_token)
+    mock = Mock()
+
+    mocker.patch.object(Hawk, 'send_to_collector', new=mock)
+
+    hawk.send(ValueError("sample error title"))
+    mock.assert_called()
+
+
+def test_manual_sending_with_context(mocker):
+    hawk = Hawk(sample_token)
+    mock = Mock()
+    context = {"ping": "pong"}
+
+    mocker.patch.object(Hawk, 'send_to_collector', new=mock)
+
+    hawk.send(ValueError("sample error title"), context)
+    event = mock.call_args.args[0]
+    assert event['payload']['context'] == context
