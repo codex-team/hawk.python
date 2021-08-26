@@ -1,11 +1,8 @@
+import os
 from hawkcatcher import Hawk
+from dotenv import load_dotenv
 
-hawk = Hawk({
-    'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0SWQiOiI1ZTZmNWM3NzAzOWI0MDAwMjNmZDViODAiLCJpYXQiOjE1ODQzNTY0NzF9.t-5Gelx3MgHVBrxTsoMyPQAdQ6ufVbPsts9zZLW3gM8',
-    'host': 'localhost:3000',
-    'path': '/',
-    'secure': False,
-})
+load_dotenv()  # take environment variables from .env.
 
 
 def helperFunction():
@@ -21,8 +18,15 @@ class TestModule:
         helperFunction()
 
 
+def main():
+    token = os.getenv('HAWK_TOKEN')
+
+    if token is None or token == "":
+        print('Hawk token not provided. Please provide HAWK_TOKEN variable in .env file')
+        return
+    Hawk(token)
+    helperFunction()
+
+
 if __name__ == "__main__":
-    try:
-        TestModule()
-    except Exception as e:
-        hawk.catch()
+    main()
