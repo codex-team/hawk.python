@@ -1,35 +1,25 @@
 import os
 import sys
 import traceback
+from typing import Union
 
 import requests
 from base64 import b64decode
 import json
 
 from hawkcatcher.errors import InvalidHawkToken
+from hawkcatcher.types import HawkCatcherSettings
 
 
 class Hawk:
-    params = {}
+    params: HawkCatcherSettings = {}
 
-    def __init__(self, settings):
+    def __init__(self, settings: Union[str, HawkCatcherSettings]):
         """
         Init Hawk Catcher class with params.
         Set exceptions hook.
 
         :param settings String|Dict: init params
-
-        {String} settings = 'eyJhbGciOiJIUz<...>WyQPiqc'
-            Pass your project JWT token
-
-        {Dictionary} settings = {
-            'token': 'eyJhbGciOiJIUz<...>WyQPiqc',
-                Project JWT token from Hawk
-            'host': 'hawk.so',
-                (optional) Hostname for your Hawk server
-            'secure': True
-                (optional) https or http
-        }
         """
 
         self.params = self.get_params(settings)
@@ -37,7 +27,7 @@ class Hawk:
         sys.excepthook = self.handler
 
     @staticmethod
-    def get_params(settings):
+    def get_params(settings) -> HawkCatcherSettings:
         settings = {'token': settings} if isinstance(settings, str) else settings
 
         if not settings['token']:
@@ -47,9 +37,10 @@ class Hawk:
             'token': settings.get('token'),
             'host': settings.get('host') or Hawk.get_collector_host(settings.get('token')),
             'secure': settings.get('secure', True),
+            'release': settings.get('release')
         }
 
-    def handler(self, exc_cls, exc, tb, context=None):
+    def handler(self, exc_cls: type, exc: Exception, tb: traceback, context=None):
         """
         Catch, prepare and send error
 
@@ -69,6 +60,7 @@ class Hawk:
                 'backtrace': backtrace,
                 'headers': {},
                 'addons': {},
+                'release': self.params['release'],
                 'context': context
             }
         }

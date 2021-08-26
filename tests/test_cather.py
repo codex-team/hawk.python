@@ -39,6 +39,7 @@ def test_settings_parsing():
         'token': sample_token,
         'host': sample_token_host,
         'secure': True,
+        'release': None
     }
 
     assert settings == right_settings
@@ -64,3 +65,18 @@ def test_manual_sending_with_context(mocker):
     hawk.send(ValueError("sample error title"), context)
     event = mock.call_args.args[0]
     assert event['payload']['context'] == context
+
+
+def test_release_sending(mocker):
+    hawk = Hawk({
+        'token': sample_token,
+        'release': "first_version"
+    })
+    mock = Mock()
+    context = {"ping": "pong"}
+
+    mocker.patch.object(Hawk, 'send_to_collector', new=mock)
+
+    hawk.send(ValueError("sample error title"), context)
+    event = mock.call_args.args[0]
+    assert event['payload']['release'] == "first_version"
