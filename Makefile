@@ -17,7 +17,7 @@ install:
 	$(PIP) install -r requirements/dev.txt
 	$(PIP) install -r requirements/requirements.txt
 
-test: clean
+test:
 	$(PYTHON) -m pytest
 
 clean-pyc:

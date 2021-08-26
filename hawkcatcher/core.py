@@ -3,6 +3,8 @@ import sys
 import traceback
 
 import requests
+from base64 import b64decode
+import json
 
 
 class Hawk:
@@ -28,24 +30,22 @@ class Hawk:
         }
         """
 
-        settings = {'token': settings} if isinstance(settings, str) else settings
-
-        self.params = {
-            'token': settings.get('token', ''),
-            'host': settings.get('host', 'hawk.so'),
-            'secure': settings.get('secure', True),
-        }
-
-        if not self.params['token']:
-            print('Token is missed. Check init params.')
-            return
-
-        self.params['url'] = 'http{}://{}/'.format(
-            's' if self.params['secure'] else '',
-            self.params['host']
-        )
+        self.params = self.get_params(settings)
 
         sys.excepthook = self.handler
+
+    @staticmethod
+    def get_params(settings):
+        settings = {'token': settings} if isinstance(settings, str) else settings
+
+        if not settings['token']:
+            print('Hawk token is empty or undefined. Please provide valid token')
+
+        return {
+            'token': settings.get('token'),
+            'host': settings.get('host') or Hawk.get_collector_host(settings.get('token')),
+            'secure': settings.get('secure', True),
+        }
 
     def handler(self, exc_cls, exc, tb):
         """
@@ -99,7 +99,9 @@ class Hawk:
         }
 
         try:
-            r = requests.post(self.params['url'], json=event)
+            protocol = 'https' if self.params['secure'] else 'http'
+            url = f'{protocol}://{self.params["host"]}'
+            r = requests.post(url, json=event)
             response = r.content.decode('utf-8')
             print('[Hawk] Response: %s' % response)
         except Exception as e:
@@ -110,6 +112,13 @@ class Hawk:
         Exception processor
         """
         self.handler(*sys.exc_info())
+
+    @staticmethod
+    def get_collector_host(token):
+        decoded_string = b64decode(token)
+        token_data = json.loads(decoded_string)
+        integration_id = token_data.get('integrationId')
+        return f'{integration_id}.k1.hawk.so'
 
     @staticmethod
     def get_near_filelines(filepath, line, margin=5):
