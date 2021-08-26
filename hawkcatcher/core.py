@@ -6,6 +6,8 @@ import requests
 from base64 import b64decode
 import json
 
+from hawkcatcher.errors import InvalidHawkToken
+
 
 class Hawk:
     params = {}
@@ -115,9 +117,16 @@ class Hawk:
 
     @staticmethod
     def get_collector_host(token):
-        decoded_string = b64decode(token)
-        token_data = json.loads(decoded_string)
-        integration_id = token_data.get('integrationId')
+        try:
+            decoded_string = b64decode(token)
+            token_data = json.loads(decoded_string)
+            integration_id = token_data.get('integrationId')
+
+            if integration_id is None:
+                raise InvalidHawkToken()
+        except Exception:
+            raise InvalidHawkToken()
+
         return f'{integration_id}.k1.hawk.so'
 
     @staticmethod

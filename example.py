@@ -19,7 +19,12 @@ class TestModule:
 
 
 def main():
-    Hawk(os.getenv('HAWK_TOKEN'))
+    token = os.getenv('HAWK_TOKEN')
+
+    if token is None or token == "":
+        print('Hawk token not provided. Please provide HAWK_TOKEN variable in .env file')
+        return
+    Hawk(token)
     helperFunction()
 
 
