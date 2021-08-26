@@ -121,3 +121,18 @@ def test_event_type_sending(mocker):
     hawk.send(InvalidHawkToken())
     event = mock.call_args.args[0]
     assert event['payload']['type'] == 'InvalidHawkToken'
+
+
+def test_user_sending(mocker):
+    hawk = Hawk(sample_token)
+    mock = Mock()
+    mocker.patch.object(Hawk, 'send_to_collector', new=mock)
+
+    user = {
+        'id': 1,
+        'name': 'Bob',
+    }
+
+    hawk.send(InvalidHawkToken(), None, user)
+    event = mock.call_args.args[0]
+    assert event['payload']['user'] == user

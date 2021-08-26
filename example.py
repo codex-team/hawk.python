@@ -26,6 +26,13 @@ class TestModule:
     def send_custom_error(self):
         raise InvalidToken()
 
+    def send_with_user(self):
+        self.hawk.send(
+            ValueError("USER"),
+            None,
+            {'id': 1, 'name': 'Alice'}
+        )
+
 
 def main():
     token = os.getenv('HAWK_TOKEN')
@@ -36,6 +43,7 @@ def main():
     hawk = Hawk(token)
     test = TestModule(hawk)
     test.mannual_sending()
+    test.send_with_user()
     test.send_custom_error()
 
 

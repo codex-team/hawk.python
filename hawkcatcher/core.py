@@ -42,7 +42,7 @@ class Hawk:
             'before_send': settings.get('before_send'),
         }
 
-    def handler(self, exc_cls: type, exc: Exception, tb: traceback, context=None):
+    def handler(self, exc_cls: type, exc: Exception, tb: traceback, context=None, user=None):
         """
         Catch, prepare and send error
 
@@ -50,6 +50,7 @@ class Hawk:
         :param exc: exception
         :param tb: exception traceback
         :param context: additional context to be send with event
+        :param user: user information who faced with that event
         """
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         ex_message = ex_message.strip()
@@ -64,7 +65,8 @@ class Hawk:
                 'backtrace': backtrace,
                 'release': self.params['release'],
                 'context': context,
-                'catcherVersion': hawkcatcher.__version__
+                'catcherVersion': hawkcatcher.__version__,
+                'user': user
             }
         }
 
@@ -89,14 +91,15 @@ class Hawk:
         """
         self.handler(*sys.exc_info())
 
-    def send(self, event: Exception, context=None):
+    def send(self, event: Exception, context=None, user=None):
         """
         Method for manually send error to Hawk
         :param event: event to send
         :param context: additional context to send with error
+        :param user: user information who faced with that event
         """
 
-        self.handler(type(event), event, None, context)
+        self.handler(type(event), event, None, context, user)
 
     @staticmethod
     def parse_traceback(tb):
