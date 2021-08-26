@@ -37,7 +37,8 @@ class Hawk:
             'token': settings.get('token'),
             'host': settings.get('host') or Hawk.get_collector_host(settings.get('token')),
             'secure': settings.get('secure', True),
-            'release': settings.get('release')
+            'release': settings.get('release'),
+            'before_send': settings.get('before_send'),
         }
 
     def handler(self, exc_cls: type, exc: Exception, tb: traceback, context=None):
@@ -58,12 +59,13 @@ class Hawk:
             'payload': {
                 'title': ex_message,
                 'backtrace': backtrace,
-                'headers': {},
-                'addons': {},
                 'release': self.params['release'],
                 'context': context
             }
         }
+
+        if self.params['before_send'] is not None:
+            self.params['before_send'](event)
 
         self.send_to_collector(event)
 
