@@ -5,6 +5,10 @@ from dotenv import load_dotenv
 load_dotenv()  # take environment variables from .env.
 
 
+class InvalidToken(Exception):
+    pass
+
+
 class TestModule:
     def __init__(self, hawk):
         self.hawk = hawk
@@ -19,6 +23,9 @@ class TestModule:
     def mannual_sending(self):
         self.hawk.send(ValueError("lol"), {"ping": "pong", "number": 1})
 
+    def send_custom_error(self):
+        raise InvalidToken()
+
 
 def main():
     token = os.getenv('HAWK_TOKEN')
@@ -29,6 +36,7 @@ def main():
     hawk = Hawk(token)
     test = TestModule(hawk)
     test.mannual_sending()
+    test.send_custom_error()
 
 
 if __name__ == "__main__":

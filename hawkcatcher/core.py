@@ -49,6 +49,7 @@ class Hawk:
         :param exc_cls: error class
         :param exc: exception
         :param tb: exception traceback
+        :param context: additional context to be send with event
         """
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         ex_message = ex_message.strip()
@@ -59,6 +60,7 @@ class Hawk:
             'catcherType': 'errors/python',
             'payload': {
                 'title': ex_message,
+                'type': exc_cls.__name__,
                 'backtrace': backtrace,
                 'release': self.params['release'],
                 'context': context,
