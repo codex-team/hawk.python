@@ -53,6 +53,7 @@ class Hawk:
         ex_message = ex_message.strip()
         backtrace = tb and Hawk.parse_traceback(tb)
 
+        import hawkcatcher
         event = {
             'token': self.params['token'],
             'catcherType': 'errors/python',
@@ -60,7 +61,8 @@ class Hawk:
                 'title': ex_message,
                 'backtrace': backtrace,
                 'release': self.params['release'],
-                'context': context
+                'context': context,
+                'catcherVersion': hawkcatcher.__version__
             }
         }
 

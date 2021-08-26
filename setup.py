@@ -1,6 +1,7 @@
 from os.path import join, dirname
 
 from setuptools import setup, find_packages
+from hawkcatcher import __version__
 
 
 def load_doc():
@@ -10,7 +11,7 @@ def load_doc():
 
 setup(
     name='hawkcatcher',
-    version='2.0.0',
+    version=__version__,
     packages=find_packages(),
     description='Python errors Catcher module for Hawk.',
     long_description=load_doc(),

@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables from .env.
 
+
 class TestModule:
     def __init__(self, hawk):
         self.hawk = hawk
@@ -17,6 +18,7 @@ class TestModule:
 
     def mannual_sending(self):
         self.hawk.send(ValueError("lol"), {"ping": "pong", "number": 1})
+
 
 def main():
     token = os.getenv('HAWK_TOKEN')
