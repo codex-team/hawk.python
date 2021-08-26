@@ -49,7 +49,7 @@ class Hawk:
             'secure': settings.get('secure', True),
         }
 
-    def handler(self, exc_cls, exc, tb):
+    def handler(self, exc_cls, exc, tb, context=None):
         """
         Catch, prepare and send error
 
@@ -59,7 +59,49 @@ class Hawk:
         """
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         ex_message = ex_message.strip()
+        backtrace = tb and Hawk.parse_traceback(tb)
 
+        event = {
+            'token': self.params['token'],
+            'catcherType': 'errors/python',
+            'payload': {
+                'title': ex_message,
+                'backtrace': backtrace,
+                'headers': {},
+                'addons': {},
+                'context': context
+            }
+        }
+
+        self.send_to_collector(event)
+
+    def send_to_collector(self, event):
+        try:
+            protocol = 'https' if self.params['secure'] else 'http'
+            url = f'{protocol}://{self.params["host"]}'
+            r = requests.post(url, json=event)
+            response = r.content.decode('utf-8')
+            print('[Hawk] Response: %s' % response)
+        except Exception as e:
+            print('[Hawk] Can\'t send error cause of %s' % e)
+
+    def catch(self):
+        """
+        Exception processor
+        """
+        self.handler(*sys.exc_info())
+
+    def send(self, event: Exception, context=None):
+        """
+        Method for manually send error to Hawk
+        :param event: event to send
+        :param context: additional context to send with error
+        """
+
+        self.handler(type(event), event, None, context)
+
+    @staticmethod
+    def parse_traceback(tb):
         error_frame = tb
         while error_frame.tb_next is not None:
             error_frame = error_frame.tb_next
@@ -83,37 +125,13 @@ class Hawk:
             }
 
             # Get part of file near string with error
-            callee['sourceCode'] = self.get_near_filelines(callee['file'], callee['line'])
+            callee['sourceCode'] = Hawk.get_near_filelines(callee['file'], callee['line'])
             backtrace.append(callee)
 
         # Reverse stack to have the latest call at the top
         backtrace = tuple(reversed(backtrace))
 
-        event = {
-            'token': self.params['token'],
-            'catcherType': 'errors/python',
-            'payload': {
-                'title': ex_message,
-                'backtrace': backtrace,
-                'headers': {},
-                'addons': {}
-            }
-        }
-
-        try:
-            protocol = 'https' if self.params['secure'] else 'http'
-            url = f'{protocol}://{self.params["host"]}'
-            r = requests.post(url, json=event)
-            response = r.content.decode('utf-8')
-            print('[Hawk] Response: %s' % response)
-        except Exception as e:
-            print('[Hawk] Can\'t send error cause of %s' % e)
-
-    def catch(self):
-        """
-        Exception processor
-        """
-        self.handler(*sys.exc_info())
+        return backtrace
 
     @staticmethod
     def get_collector_host(token):
