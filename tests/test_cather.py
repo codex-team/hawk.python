@@ -111,3 +111,13 @@ def test_catcher_version_sending(mocker):
     hawk.send(ValueError("sample error title"))
     event = mock.call_args.args[0]
     assert event['payload']['catcherVersion'] == __version__
+
+
+def test_event_type_sending(mocker):
+    hawk = Hawk(sample_token)
+    mock = Mock()
+    mocker.patch.object(Hawk, 'send_to_collector', new=mock)
+
+    hawk.send(InvalidHawkToken())
+    event = mock.call_args.args[0]
+    assert event['payload']['type'] == 'InvalidHawkToken'
