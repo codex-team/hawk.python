@@ -7,30 +7,30 @@ from hawkcatcher import Hawk
 from hawkcatcher.errors import InvalidHawkToken
 
 sample_token = "eyJpbnRlZ3JhdGlvbklkIjoiZGRjZmY4OTItODMzMy00YjVlLWIyYWQtZWM1MDQ5MDVjMjFlIiwic2VjcmV0IjoiZmJjYzIwMTEtMTY5My00NDIyLThiNDItZDRlMzdlYmI4NWIwIn0="
-sample_token_host = "ddcff892-8333-4b5e-b2ad-ec504905c21e.k1.hawk.so"
+sample_token_collector_endpoint = "https://ddcff892-8333-4b5e-b2ad-ec504905c21e.k1.hawk.so"
 
 
 def test_token_parsing():
-    collector_host = Hawk.get_collector_host(sample_token)
-    assert collector_host == sample_token_host
+    collector_host = Hawk.get_collector_endpoint(sample_token)
+    assert collector_host == sample_token_collector_endpoint
 
 
 def test_token_parsing_with_wrong_token_format():
     wrong_token = "eyJpbnRlZ3joiZGRjZmY4OtZWM1MDQ5MDVjMjFlIEtMTY5My00NDIyLThiNDItZDRlMzdlYmI4NWIwIn0="
     with pytest.raises(InvalidHawkToken):
-        Hawk.get_collector_host(wrong_token)
+        Hawk.get_collector_endpoint(wrong_token)
 
 
 def test_token_parsing_with_wrong_token_data():
     wrong_token = "eyJzZWNyZXQiOiJmYmNjMjAxMS0xNjkzLTQ0MjItOGI0Mi1kNGUzN2ViYjg1YjAifQ=="
     with pytest.raises(InvalidHawkToken):
-        Hawk.get_collector_host(wrong_token)
+        Hawk.get_collector_endpoint(wrong_token)
 
 
 def test_token_parsing_no_token():
     wrong_token = ""
     with pytest.raises(InvalidHawkToken):
-        Hawk.get_collector_host(wrong_token)
+        Hawk.get_collector_endpoint(wrong_token)
 
 
 def test_settings_parsing():
@@ -38,8 +38,7 @@ def test_settings_parsing():
 
     right_settings = {
         'token': sample_token,
-        'host': sample_token_host,
-        'secure': True,
+        'collector_endpoint': sample_token_collector_endpoint,
         'release': None,
         'before_send': None
     }
@@ -138,7 +137,7 @@ def test_user_sending(mocker):
     assert event['payload']['user'] == user
 
 
-def test__catch_traceback_on_manual_sending(mocker):
+def test_catch_traceback_on_manual_sending(mocker):
     hawk = Hawk(sample_token)
 
     mock = Mock()
@@ -151,3 +150,33 @@ def test__catch_traceback_on_manual_sending(mocker):
 
     event = mock.call_args.args[0]
     assert event['payload']['backtrace'] is not None
+
+
+def test_catch_exception_if_empty_send_call(mocker):
+    hawk = Hawk(sample_token)
+
+    mock = Mock()
+    mocker.patch.object(Hawk, 'send_to_collector', new=mock)
+
+    try:
+        val = 1 / 0
+    except Exception:
+        hawk.send()
+
+    event = mock.call_args.args[0]
+    assert event['payload']['type'] == "ZeroDivisionError"
+
+
+def test_wrap_context_if_not_object(mocker):
+    hawk = Hawk(sample_token)
+
+    mock = Mock()
+    mocker.patch.object(Hawk, 'send_to_collector', new=mock)
+
+    try:
+        val = 1 / 0
+    except Exception:
+        hawk.send(ValueError("error description"), "data", {"id": 123})
+
+    event = mock.call_args.args[0]
+    assert type(event['payload']['context']) is dict

@@ -36,8 +36,8 @@ class Hawk:
 
         return {
             'token': settings.get('token'),
-            'host': settings.get('host') or Hawk.get_collector_host(settings.get('token')),
-            'secure': settings.get('secure', True),
+            'collector_endpoint': settings.get('collector_endpoint') or Hawk.get_collector_endpoint(
+                settings.get('token')),
             'release': settings.get('release'),
             'before_send': settings.get('before_send'),
         }
@@ -55,6 +55,11 @@ class Hawk:
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         ex_message = ex_message.strip()
         backtrace = tb and Hawk.parse_traceback(tb)
+
+        if not (type(context) is dict):
+            context = {
+                'value': context
+            }
 
         event = {
             'token': self.params['token'],
@@ -77,15 +82,14 @@ class Hawk:
 
     def send_to_collector(self, event):
         try:
-            protocol = 'https' if self.params['secure'] else 'http'
-            url = f'{protocol}://{self.params["host"]}'
+            url = f'{self.params["collector_endpoint"]}'
             r = requests.post(url, json=event)
             response = r.content.decode('utf-8')
             print('[Hawk] Response: %s' % response)
         except Exception as e:
             print('[Hawk] Can\'t send error cause of %s' % e)
 
-    def send(self, event: Exception, context=None, user=None):
+    def send(self, event: Exception = None, context=None, user=None):
         """
         Method for manually send error to Hawk
         :param event: event to send
@@ -93,9 +97,12 @@ class Hawk:
         :param user: user information who faced with that event
         """
 
-        _, _, tb = sys.exc_info()
+        exc_cls, exc, tb = sys.exc_info()
 
-        self.handler(type(event), event, tb, context, user)
+        if event is not None:
+            self.handler(type(event), event, tb, context, user)
+        else:
+            self.handler(exc_cls, exc, tb, context, user)
 
     @staticmethod
     def parse_traceback(tb):
@@ -131,7 +138,7 @@ class Hawk:
         return backtrace
 
     @staticmethod
-    def get_collector_host(token):
+    def get_collector_endpoint(token):
         try:
             decoded_string = b64decode(token)
             token_data = json.loads(decoded_string)
@@ -142,7 +149,7 @@ class Hawk:
         except Exception:
             raise InvalidHawkToken()
 
-        return f'{integration_id}.k1.hawk.so'
+        return f'https://{integration_id}.k1.hawk.so'
 
     @staticmethod
     def get_near_filelines(filepath, line, margin=10):

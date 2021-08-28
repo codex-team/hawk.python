@@ -12,25 +12,21 @@ Register an account and get a new project token.
 
 Install `hawkcatcher` from PyPI.
 
-``` {.sourceCode .bash}
+```shell
 $ pip install hawkcatcher
 ```
 
 Import Catcher module to your project.
 
-``` {.sourceCode .python}
+```python
 from hawkcatcher import Hawk
 ```
 
 Then enable Hawk Catcher with your token and domain.
 
-``` {.sourceCode .python}
-hawk = Hawk({
-    'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0SWQiOiI1ZTZmNWM3NzAzOWI0MDAwMjNmZDViODAiLCJpYXQiOjE1ODQzNTY0NzF9.t-5Gelx3MgHVBrxTsoMyPQAdQ6ufVbPsts9zZLW3gM8',
-    'host': 'localhost:3000',
-    'path': '/',
-    'secure': False,
-})
+```python
+hawk = Hawk(
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0SWQiOiI1ZTZmNWM3NzAzOWI0MDAwMjNmZDViODAiLCJpYXQiOjE1ODQzNTY0NzF9.t-5Gelx3MgHVBrxTsoMyPQAdQ6ufVbPsts9zZLW3gM8")
 ```
 
 Now all global errors would be sent to Hawk.
@@ -39,11 +35,45 @@ Now all global errors would be sent to Hawk.
 
 If you want to catch errors in try-except blocks then use `hawk.catch()` in except:
 
-``` {.sourceCode .python}
+```python
 try:
     ...
 except:
-    hawk.catch()
+    hawk.send()
+```
+
+### Manual sending
+
+You can also pass event to the `hawk.send()` call, for example:
+
+```python
+try:
+    ...
+except:
+    hawk.send(ValueError("error description"))
+```
+
+
+### Event context
+
+It is possible to pass additional event context for debugging purposes:
+
+```python
+try:
+    ...
+except:
+    hawk.send(ValueError("error description"), {"params": "value"})
+```
+
+### Affected user
+
+You can also pass user, who affected with specific error:
+
+```python
+try:
+    ...
+except:
+    hawk.send(ValueError("error description"), {"params": "value"}, {"id": 123})
 ```
 
 Init params
@@ -51,7 +81,7 @@ Init params
 
 To init Hawk Catcher just pass a project token.
 
-``` {.sourceCode .python}
+```python
 hawk = Hawk('1234567-abcd-8901-efgh-123456789012')
 ```
 
@@ -59,19 +89,18 @@ hawk = Hawk('1234567-abcd-8901-efgh-123456789012')
 
 If you need to use custom Hawk server then pass a dictionary with params.
 
-``` {.sourceCode .python}
+```python
 hawk = Hawk({
     'token': '1234567-abcd-8901-efgh-123456789012',
-    'host': 'hawk.so',
-    'secure': True,
+    'collector_endpoint': 'https://<id>.k1.hawk.so',
 })
 ```
 
 Requirements
 ------------
 
--   Python \>= 3.5
--   requests
+- Python \>= 3.5
+- requests
 
 Links
 -----
