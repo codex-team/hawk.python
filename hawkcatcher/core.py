@@ -15,7 +15,7 @@ from hawkcatcher.types import HawkCatcherSettings
 class Hawk:
     params: HawkCatcherSettings = {}
 
-    def __init__(self, settings: Union[str, HawkCatcherSettings]):
+    def __init__(self, settings: Union[str, HawkCatcherSettings] = None):
         """
         Init Hawk Catcher class with params.
         Set exceptions hook.
@@ -28,11 +28,14 @@ class Hawk:
         sys.excepthook = self.handler
 
     @staticmethod
-    def get_params(settings) -> HawkCatcherSettings:
+    def get_params(settings) -> Union[HawkCatcherSettings, None]:
+        if settings is None:
+            return None
+
         settings = {'token': settings} if isinstance(settings, str) else settings
 
         if not settings['token']:
-            print('Hawk token is empty or undefined. Please provide valid token')
+            return None
 
         return {
             'token': settings.get('token'),
@@ -52,6 +55,10 @@ class Hawk:
         :param context: additional context to be send with event
         :param user: user information who faced with that event
         """
+
+        if not self.params:
+            return
+
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         ex_message = ex_message.strip()
         backtrace = tb and Hawk.parse_traceback(tb)

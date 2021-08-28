@@ -180,3 +180,45 @@ def test_wrap_context_if_not_object(mocker):
 
     event = mock.call_args.args[0]
     assert type(event['payload']['context']) is dict
+
+
+def test_do_not_send_error_if_no_settings(mocker):
+    hawk = Hawk()
+
+    mock = Mock()
+    mocker.patch.object(Hawk, 'send_to_collector', new=mock)
+
+    try:
+        val = 1 / 0
+    except Exception:
+        hawk.send()
+
+    mock.assert_not_called()
+
+
+def test_do_not_send_error_if_token_is_empty(mocker):
+    hawk = Hawk("")
+
+    mock = Mock()
+    mocker.patch.object(Hawk, 'send_to_collector', new=mock)
+
+    try:
+        val = 1 / 0
+    except Exception:
+        hawk.send()
+
+    mock.assert_not_called()
+
+
+def test_do_not_send_error_if_token_in_settings_is_empty(mocker):
+    hawk = Hawk({"token": ""})
+
+    mock = Mock()
+    mocker.patch.object(Hawk, 'send_to_collector', new=mock)
+
+    try:
+        val = 1 / 0
+    except Exception:
+        hawk.send()
+
+    mock.assert_not_called()
