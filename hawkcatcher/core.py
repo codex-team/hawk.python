@@ -23,6 +23,9 @@ class Hawk:
         :param settings String|Dict: init params
         """
 
+        self.init(settings)
+
+    def init(self, settings: Union[str, HawkCatcherSettings] = None):
         self.params = self.get_params(settings)
 
         sys.excepthook = self.handler
