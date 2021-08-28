@@ -20,6 +20,7 @@ setup(
     author='CodeX Team',
     author_email='team@ifmo.su',
     license='MIT',
+    long_description_content_type='text/markdown',
     classifiers=[
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Bug Tracking',
