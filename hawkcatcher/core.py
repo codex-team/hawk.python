@@ -85,12 +85,6 @@ class Hawk:
         except Exception as e:
             print('[Hawk] Can\'t send error cause of %s' % e)
 
-    def catch(self):
-        """
-        Exception processor
-        """
-        self.handler(*sys.exc_info())
-
     def send(self, event: Exception, context=None, user=None):
         """
         Method for manually send error to Hawk
@@ -99,7 +93,9 @@ class Hawk:
         :param user: user information who faced with that event
         """
 
-        self.handler(type(event), event, None, context, user)
+        _, _, tb = sys.exc_info()
+
+        self.handler(type(event), event, tb, context, user)
 
     @staticmethod
     def parse_traceback(tb):
@@ -149,7 +145,7 @@ class Hawk:
         return f'{integration_id}.k1.hawk.so'
 
     @staticmethod
-    def get_near_filelines(filepath, line, margin=5):
+    def get_near_filelines(filepath, line, margin=10):
         """
         Return part of file near the string with error
 

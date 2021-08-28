@@ -5,7 +5,7 @@ from hawkcatcher import __version__
 
 
 def load_doc():
-    with open(join(dirname(__file__), 'README.rst')) as file:
+    with open(join(dirname(__file__), 'README.md')) as file:
         return file.read()
 
 

@@ -136,3 +136,18 @@ def test_user_sending(mocker):
     hawk.send(InvalidHawkToken(), None, user)
     event = mock.call_args.args[0]
     assert event['payload']['user'] == user
+
+
+def test__catch_traceback_on_manual_sending(mocker):
+    hawk = Hawk(sample_token)
+
+    mock = Mock()
+    mocker.patch.object(Hawk, 'send_to_collector', new=mock)
+
+    try:
+        val = 1 / 0
+    except Exception:
+        hawk.send(ValueError("val err"))
+
+    event = mock.call_args.args[0]
+    assert event['payload']['backtrace'] is not None
