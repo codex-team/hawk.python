@@ -1,4 +1,4 @@
-__version__ = "3.4.0"
+__version__ = "3.4.1"
 
 from .core import Hawk
 from .types import HawkCatcherSettings
