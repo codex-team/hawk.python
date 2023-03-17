@@ -22,8 +22,8 @@ class Hawk:
 
         :param settings String|Dict: init params
         """
-
-        self.init(settings)
+        if settings is not None:
+            self.init(settings)
 
     def init(self, settings: Union[str, HawkCatcherSettings] = None):
         self.params = self.get_params(settings)
