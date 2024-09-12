@@ -1,0 +1,15 @@
+FROM python:3.10-slim AS build-stage
+
+WORKDIR /app
+COPY ./example/requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+FROM python:3.10-alpine AS final-stage
+
+WORKDIR /app
+
+COPY --from=build-stage /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=build-stage /usr/local/bin /usr/local/bin
+
+COPY ./example/fill_events.py ./fill_events.py
+CMD ["python", "./fill_events.py"]
