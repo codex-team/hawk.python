@@ -23,11 +23,7 @@ jobs:
         env:
           BASE_IMAGE_NAME: ${{ github.repository }}
         run: |
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-            echo "image_name=${REGISTRY}/${BASE_IMAGE_NAME}" >> $GITHUB_OUTPUT
-          else
-            echo "image_name=${REGISTRY}/${BASE_IMAGE_NAME}-stage" >> $GITHUB_OUTPUT
-          fi
+            echo "image_name=${REGISTRY}/${BASE_IMAGE_NAME}-demo" >> $GITHUB_OUTPUT
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -54,4 +50,4 @@ jobs:
           file: docker/Dockerfile.demo
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          push: ${{ startsWith(github.ref, 'refs/tags/v') || endsWith(github.ref, '/stage') }}
+          push: ${{ startsWith(github.ref, 'refs/tags/v') }}
