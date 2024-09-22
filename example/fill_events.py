@@ -1,6 +1,9 @@
 import random
 import os
 import hawkcatcher
+from faker import Faker
+
+fake = Faker()
 
 def divide_by_zero():
     a = random.randint(1, 100)
@@ -32,6 +35,12 @@ def value_error():
     invalid_strings = ['abc', 'NaN', 'invalid']
     return int(random.choice(invalid_strings)) 
 
+def random_exception():
+    title = fake.sentence(nb_words=6)
+    exception_types = [ValueError, KeyError, IndexError, TypeError, AssertionError, ZeroDivisionError]
+    selected_exception = random.choice(exception_types)
+    raise selected_exception(f"Error: {title}")
+
 exceptions = [
     divide_by_zero, trigger_manual_exception, 
     invalid_operation, index_out_of_range, key_error, 
@@ -46,5 +55,14 @@ for _ in range(10):
         func = random.choice(exceptions)
         func()
     except Exception as e:
-        random_ip = f'{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}'
-        hawkcatcher.send(e, {'ip': random_ip, 'value': random.randint(1, 100)})
+        random_username = fake.user_name()
+        random_email = fake.email()
+        hawkcatcher.send(e, {'username': random_username, 'value': random_email})
+
+for _ in range(2):
+    try:
+        random_exception()
+    except Exception as e:
+        random_username = fake.user_name()
+        random_email = fake.email()
+        hawkcatcher.send(e, {'username': random_username, 'value': random_email})
