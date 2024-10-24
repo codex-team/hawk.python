@@ -10,12 +10,13 @@ help:
 	@echo "  clean ------------ - Clean all distribution build artifacts."
 	@echo "    clean-pyc ------ - Remove .pyc/__pycache__ files."
 	@echo "    clean-build ---- - Remove setup artifacts."
-	@echo "  build ------------ - Regenarate setup.py and rebuild python  package."
+	@echo "  build ------------ - Rebuild python  package."
 	@echo "upload ------------- - Upload built python package on pypi server."
 
 install:
 	$(PIP) install -r requirements/dev.txt
 	$(PIP) install -r requirements/requirements.txt
+	$(PYTHON) -m pip install --upgrade build twine
 
 test:
 	$(PYTHON) -m pytest
@@ -30,10 +31,9 @@ clean-build:
 clean: clean-pyc clean-build
 
 build:
-	$(PYTHON)  generate_setup.py
-	$(PYTHON)  setup.py sdist bdist_wheel
+	$(PYTHON) -m build
 
 dist: clean build
 
 upload:
-	$(PYTHON) setup.py sdist upload -r "${PYPISERVERNAME}"
+	$(PYTHON) -m twine upload -r "${PYPISERVERNAME}" dist/*
