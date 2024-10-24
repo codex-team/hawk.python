@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+[project]
+dynamic = ["version"]
+dependencies = ["requests"]
+name = "hawkcatcher"
+authors = [{ name = "CodeX Team", email = "team@codex.so" }]
+description = "Python errors Catcher module for Hawk."
+readme = "README.md"
+requires-python = ">=3.5"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Bug Tracking",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.5",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+]
+[tool.hatch.version]
+path = "src/hawkcatcher/__init__.py"
+[project.urls]
+Homepage = "https://github.com/codex-team/hawk.python"
+Issues = "https://github.com/codex-team/hawk.python/issues"
