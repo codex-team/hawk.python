@@ -10,7 +10,8 @@ help:
 	@echo "  clean ------------ - Clean all distribution build artifacts."
 	@echo "    clean-pyc ------ - Remove .pyc/__pycache__ files."
 	@echo "    clean-build ---- - Remove setup artifacts."
-	@echo "  build ------------ - Rebuild python  package."
+	@echo "  build ------------ - Rebuild python package."
+
 	@echo "upload ------------- - Upload built python package on pypi server."
 
 install:
