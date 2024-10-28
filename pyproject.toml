@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 [project]
 dynamic = ["version"]
-dependencies = ["requests"]
+dependencies = ["requests", "flask"]
 name = "hawkcatcher"
 authors = [{ name = "CodeX Team", email = "team@codex.so" }]
 description = "Python errors Catcher module for Hawk."
