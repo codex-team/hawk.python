@@ -1,5 +1,6 @@
 from .flask import HawkFlask
 from .types import HawkCatcherSettings
+from .types import FlaskSettings
 
 hawk = HawkFlask()
 
