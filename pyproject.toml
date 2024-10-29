@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 [project]
 dynamic = ["version"]
-dependencies = ["requests", "flask"]
+dependencies = ["requests"]
 name = "hawkcatcher"
 authors = [{ name = "CodeX Team", email = "team@codex.so" }]
 description = "Python errors Catcher module for Hawk."
@@ -17,6 +17,8 @@ classifiers = [
     "Environment :: Console",
     "Environment :: Web Environment",
 ]
+[project.optional-dependencies]
+flask = ["flask"]
 [tool.hatch.version]
 path = "src/hawkcatcher/__init__.py"
 [project.urls]
