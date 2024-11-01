@@ -1,10 +1,8 @@
-Hawk Python Catcher
-===========
+# Hawk Python Catcher
 
 Python errors Catcher module for [Hawk.so](https://hawk.so).
 
-Usage
------
+## Usage
 
 Register an account and get a new project token.
 
@@ -53,7 +51,6 @@ except:
     hawk.send(ValueError("error description"))
 ```
 
-
 ### Event context
 
 It is possible to pass additional event context for debugging purposes:
@@ -76,8 +73,7 @@ except:
     hawk.send(ValueError("error description"), {"params": "value"}, {"id": 123})
 ```
 
-Init params
------------
+## Init params
 
 To init Hawk Catcher just pass a project token.
 
@@ -96,14 +92,22 @@ hawk = Hawk({
 })
 ```
 
-Requirements
-------------
+Parameters:
+
+| name                 | type                   | required     | description                                                              |
+| -------------------- | ---------------------- | ------------ | ------------------------------------------------------------------------ |
+| `token`              | str                    | **required** | Your project's Integration Token                                         |
+| `release`            | str                    | optional     | Release name for Suspected Commits feature                               |
+| `collector_endpoint` | string                 | optional     | Collector endpoint for sending event to                                  |
+| `context`            | dict                   | optional     | Additional context to be send with every event                           |
+| `before_send`        | Callable[[dict], None] | optional     | This Method allows you to filter any data you don't want sending to Hawk |
+
+## Requirements
 
 - Python \>= 3.5
 - requests
 
-Links
------
+## Links
 
 Repository: <https://github.com/codex-team/hawk.python>
 
@@ -111,4 +115,4 @@ Report a bug: <https://github.com/codex-team/hawk.python/issues>
 
 PyPI Package: <https://pypi.python.org/pypi/hawkcatcher>
 
-CodeX Team: <https://ifmo.su>
+CodeX Team: <https://codex.so/>

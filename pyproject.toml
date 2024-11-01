@@ -17,6 +17,8 @@ classifiers = [
     "Environment :: Console",
     "Environment :: Web Environment",
 ]
+[project.optional-dependencies]
+flask = ["flask"]
 [tool.hatch.version]
 path = "src/hawkcatcher/__init__.py"
 [project.urls]

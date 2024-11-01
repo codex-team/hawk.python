@@ -46,9 +46,10 @@ class Hawk:
                 settings.get('token')),
             'release': settings.get('release'),
             'before_send': settings.get('before_send'),
+            'context': settings.get('context', None)
         }
 
-    def handler(self, exc_cls: type, exc: Exception, tb: traceback, context=None, user=None):
+    def handler(self, exc_cls: type, exc: Exception, tb: traceback, context=None, user=None, addons=None):
         """
         Catch, prepare and send error
 
@@ -61,6 +62,10 @@ class Hawk:
 
         if not self.params:
             return
+        
+        # in case passed context is empty set default from config
+        if context is None:
+            context = self.params.get('context')
 
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         ex_message = ex_message.strip()
@@ -70,6 +75,9 @@ class Hawk:
             context = {
                 'value': context
             }
+
+        if addons is None:
+            addons = {}
 
         event = {
             'token': self.params['token'],
@@ -81,7 +89,8 @@ class Hawk:
                 'release': self.params['release'],
                 'context': context,
                 'catcherVersion': hawkcatcher.__version__,
-                'user': user
+                'user': user,
+                'addons': addons
             }
         }
 
@@ -99,7 +108,7 @@ class Hawk:
         except Exception as e:
             print('[Hawk] Can\'t send error cause of %s' % e)
 
-    def send(self, event: Exception = None, context=None, user=None):
+    def send(self, event: Exception = None, context=None, user=None, addons=None):
         """
         Method for manually send error to Hawk
         :param event: event to send
@@ -110,9 +119,9 @@ class Hawk:
         exc_cls, exc, tb = sys.exc_info()
 
         if event is not None:
-            self.handler(type(event), event, tb, context, user)
+            self.handler(type(event), event, tb, context, user, addons)
         else:
-            self.handler(exc_cls, exc, tb, context, user)
+            self.handler(exc_cls, exc, tb, context, user, addons)
 
     @staticmethod
     def parse_traceback(tb):
