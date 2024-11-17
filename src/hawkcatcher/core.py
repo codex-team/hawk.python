@@ -9,7 +9,7 @@ import json
 
 import hawkcatcher
 from hawkcatcher.errors import InvalidHawkToken
-from hawkcatcher.types import HawkCatcherSettings
+from hawkcatcher.types import HawkCatcherSettings, Addons, User
 
 
 class Hawk:
@@ -49,7 +49,7 @@ class Hawk:
             'context': settings.get('context', None)
         }
 
-    def handler(self, exc_cls: type, exc: Exception, tb: traceback, context=None, user=None, addons=None):
+    def handler(self, exc_cls: type, exc: Exception, tb: traceback, context=None, user=None):
         """
         Catch, prepare and send error
 
@@ -70,6 +70,7 @@ class Hawk:
         ex_message = traceback.format_exception_only(exc_cls, exc)[-1]
         ex_message = ex_message.strip()
         backtrace = tb and Hawk.parse_traceback(tb)
+        addons = self._set_addons()
 
         if not (type(context) is dict):
             context = {
@@ -108,7 +109,7 @@ class Hawk:
         except Exception as e:
             print('[Hawk] Can\'t send error cause of %s' % e)
 
-    def send(self, event: Exception = None, context=None, user=None, addons=None):
+    def send(self, event: Exception = None, context=None, user=None):
         """
         Method for manually send error to Hawk
         :param event: event to send
@@ -119,9 +120,27 @@ class Hawk:
         exc_cls, exc, tb = sys.exc_info()
 
         if event is not None:
-            self.handler(type(event), event, tb, context, user, addons)
+            self.handler(type(event), event, tb, context, user)
         else:
-            self.handler(exc_cls, exc, tb, context, user, addons)
+            self.handler(exc_cls, exc, tb, context, user)
+
+    def _set_addons(self) -> Union[Addons, None]:
+        """
+        Set framework addons to send with error
+        """
+        return None
+    
+    def _set_user(self, request) -> Union[User, None]:
+        """
+        Set user information by set_user callback
+        """
+        user = None
+
+        if self.params.get('set_user') is not None:
+            user = self.params['set_user'](request)
+
+        return user
+    
 
     @staticmethod
     def parse_traceback(tb):

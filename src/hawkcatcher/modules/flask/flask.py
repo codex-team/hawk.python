@@ -1,6 +1,6 @@
 from ...core import Hawk
 from typing import Union
-from hawkcatcher.modules.flask.types import FlaskSettings, User, Addons
+from hawkcatcher.modules.flask.types import FlaskSettings, Addons
 from hawkcatcher.errors import ModuleError
 
 try:
@@ -27,23 +27,20 @@ class HawkFlask(Hawk):
         return {
             **hawk_params,
             'set_user': settings.get('set_user'),
-            'with_addons': settings.get('with_addons', True)
         }
     
-    def send(self, exception, context=None, user=None, addons=None):
+    def send(self, exception, context=None, user=None):
         """
         Method for manually send error to Hawk
         :param exception: exception
         :param context: additional context to send with error
         :param user: user information who faced with that event
         """
-        if addons is None:
-            addons = self._set_addons()
 
-        if user is None:
+        if (user is None) and (request):
             user = self._set_user(request)
 
-        super().send(exception, context, user, addons)
+        super().send(exception, context, user)
 
     def _handle_request_exception(self, sender: Flask, exception):
         """
@@ -52,13 +49,12 @@ class HawkFlask(Hawk):
         :param sender: flask app
         :param exception: exception
         """
-        addons = self._set_addons()
 
         user = self._set_user(request)
 
         ctx = self.params.get('context', None)
 
-        self.send(exception, ctx, user, addons)
+        self.send(exception, ctx, user)
 
     def _set_addons(self) -> Union[Addons, None]:
         """
@@ -83,15 +79,3 @@ class HawkFlask(Hawk):
             }
 
         return addons
-    
-    def _set_user(self, request) -> Union[User, None]:
-        """
-        Set user information by set_user callback
-        """
-        user = None
-
-        if self.params.get('set_user') is not None:
-            user = self.params['set_user'](request)
-
-        return user
-    
