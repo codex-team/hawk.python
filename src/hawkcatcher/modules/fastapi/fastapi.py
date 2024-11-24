@@ -76,11 +76,13 @@ class HawkFastapi(Hawk):
             return None
 
         return {
-            'url': str(request.url),
-            'method': request.method,
-            'headers': dict(request.headers),
-            'cookies': dict(request.cookies),
-            'params': dict(request.query_params)
+            'fastapi': {
+                'url': str(request.url),
+                'method': request.method,
+                'headers': dict(request.headers),
+                'cookies': dict(request.cookies),
+                'params': dict(request.query_params)
+            }
         }
     
     @staticmethod
