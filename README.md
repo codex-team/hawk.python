@@ -6,6 +6,8 @@ Python errors Catcher module for [Hawk.so](https://hawk.so).
 
 Register an account and get a new project token.
 
+If you want to connect specific frameworks see [Flask integration](./docs/flask.md), [FastAPI integration](./docs/fastapi.md).
+
 ### Install module
 
 Install `hawkcatcher` from PyPI.
@@ -104,7 +106,7 @@ Parameters:
 
 ## Requirements
 
-- Python \>= 3.5
+- Python \>= 3.9
 - requests
 
 ## Links

@@ -8,7 +8,7 @@ name = "hawkcatcher"
 authors = [{ name = "CodeX Team", email = "team@codex.so" }]
 description = "Python errors Catcher module for Hawk."
 readme = "README.md"
-requires-python = ">=3.5"
+requires-python = ">=3.9"
 classifiers = [
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Bug Tracking",
@@ -19,6 +19,7 @@ classifiers = [
 ]
 [project.optional-dependencies]
 flask = ["flask"]
+fastapi = ["starlette"]
 [tool.hatch.version]
 path = "src/hawkcatcher/__init__.py"
 [project.urls]
