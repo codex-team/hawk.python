@@ -7,9 +7,9 @@ import requests
 from base64 import b64decode
 import json
 
-import hawkcatcher
-from hawkcatcher.errors import InvalidHawkToken
-from hawkcatcher.types import HawkCatcherSettings, Addons, User
+import hawk_catcher
+from hawk_catcher.errors import InvalidHawkToken
+from hawk_catcher.types import HawkCatcherSettings, Addons, User
 
 
 class Hawk:
@@ -89,7 +89,7 @@ class Hawk:
                 'backtrace': backtrace,
                 'release': self.params['release'],
                 'context': context,
-                'catcherVersion': hawkcatcher.__version__,
+                'catcherVersion': hawk_catcher.__version__,
                 'user': user,
                 'addons': addons
             }

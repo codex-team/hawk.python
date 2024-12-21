@@ -1,2 +1,2 @@
-hawkcatcher
+hawk-catcher
 faker

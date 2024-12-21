@@ -5,13 +5,13 @@ This extension adds support for the [FastAPI](https://fastapi.tiangolo.com/) web
 ## Installation
 
 ```bash
-pip install hawkcatcher[fastapi]
+pip install hawk-catcher[fastapi]
 ```
 
 import Catcher module to your project.
 
 ```python
-from hawkcatcher.modules.fastapi import HawkFastapi
+from hawk_catcher.modules.fastapi import HawkFastapi
 ```
 
 ```python

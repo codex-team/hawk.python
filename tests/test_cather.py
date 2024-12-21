@@ -2,9 +2,9 @@ from unittest.mock import Mock
 
 import pytest
 
-from hawkcatcher import __version__
-from hawkcatcher import Hawk
-from hawkcatcher.errors import InvalidHawkToken
+from hawk_catcher import __version__
+from hawk_catcher import Hawk
+from hawk_catcher.errors import InvalidHawkToken
 
 sample_token = "eyJpbnRlZ3JhdGlvbklkIjoiZGRjZmY4OTItODMzMy00YjVlLWIyYWQtZWM1MDQ5MDVjMjFlIiwic2VjcmV0IjoiZmJjYzIwMTEtMTY5My00NDIyLThiNDItZDRlMzdlYmI4NWIwIn0="
 sample_token_collector_endpoint = "https://ddcff892-8333-4b5e-b2ad-ec504905c21e.k1.hawk.so"
@@ -40,7 +40,8 @@ def test_settings_parsing():
         'token': sample_token,
         'collector_endpoint': sample_token_collector_endpoint,
         'release': None,
-        'before_send': None
+        'before_send': None,
+        'context': None
     }
 
     assert settings == right_settings
