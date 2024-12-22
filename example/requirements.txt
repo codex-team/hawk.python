@@ -1,2 +1,2 @@
-hawk-catcher
+hawk-python-sdk
 faker

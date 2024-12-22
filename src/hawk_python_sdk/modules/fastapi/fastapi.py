@@ -1,11 +1,11 @@
-from hawk_catcher.types import HawkCatcherSettings
+from hawk_python_sdk.types import HawkCatcherSettings
 from ...core import Hawk
-from hawk_catcher.modules.fastapi.types import FastapiSettings, FastapiAddons
+from hawk_python_sdk.modules.fastapi.types import FastapiSettings, FastapiAddons
 from starlette.types import ASGIApp, Receive, Scope, Send
 from starlette.requests import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 from typing import Union
-from hawk_catcher.errors import ModuleError
+from hawk_python_sdk.errors import ModuleError
 import asyncio
 from contextvars import ContextVar
 from fastapi import Request

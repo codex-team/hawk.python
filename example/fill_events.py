@@ -1,6 +1,6 @@
 import random
 import os
-import hawk_catcher
+import hawk_python_sdk
 from faker import Faker
 
 fake = Faker()
@@ -48,7 +48,7 @@ exceptions = [
 ]
 
 token = os.getenv('HAWK_TOKEN')
-hawk_catcher.init(token)
+hawk_python_sdk.init(token)
 
 for _ in range(10):
     try:
@@ -57,7 +57,7 @@ for _ in range(10):
     except Exception as e:
         random_username = fake.user_name()
         random_email = fake.email()
-        hawk_catcher.send(e, {'username': random_username, 'value': random_email})
+        hawk_python_sdk.send(e, {'username': random_username, 'value': random_email})
 
 for _ in range(2):
     try:
@@ -65,4 +65,4 @@ for _ in range(2):
     except Exception as e:
         random_username = fake.user_name()
         random_email = fake.email()
-        hawk_catcher.send(e, {'username': random_username, 'value': random_email})
+        hawk_python_sdk.send(e, {'username': random_username, 'value': random_email})

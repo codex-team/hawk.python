@@ -1,7 +1,7 @@
 from ...core import Hawk
 from typing import Union
-from hawk_catcher.modules.flask.types import FlaskSettings, Addons
-from hawk_catcher.errors import ModuleError
+from hawk_python_sdk.modules.flask.types import FlaskSettings, Addons
+from hawk_python_sdk.errors import ModuleError
 
 try:
     from flask.signals import got_request_exception

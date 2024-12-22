@@ -1,4 +1,4 @@
-from hawk_catcher.types import HawkCatcherSettings, User, Addons
+from hawk_python_sdk.types import HawkCatcherSettings, User, Addons
 from typing import Callable, TypedDict
 from starlette.applications import Starlette
 from fastapi import Request
