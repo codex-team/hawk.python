@@ -10,16 +10,16 @@ If you want to connect specific frameworks see [Flask integration](./docs/flask.
 
 ### Install module
 
-Install `hawkcatcher` from PyPI.
+Install `hawk_python_sdk` from PyPI.
 
 ```shell
-$ pip install hawkcatcher
+$ pip install hawk_python_sdk
 ```
 
 Import Catcher module to your project.
 
 ```python
-from hawkcatcher import Hawk
+from hawk_python_sdk import Hawk
 ```
 
 Then enable Hawk Catcher with your token and domain.
@@ -106,7 +106,7 @@ Parameters:
 
 ## Requirements
 
-- Python \>= 3.9
+- Python \>= 3.12
 - requests
 
 ## Links
