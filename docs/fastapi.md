@@ -1,26 +1,26 @@
-# Flask integration
+# FastAPI integration
 
 This extension adds support for the [FastAPI](https://fastapi.tiangolo.com/) web framework.
 
 ## Installation
 
 ```bash
-pip install hawkcatcher[fastapi]
+pip install hawk_python_sdk[fastapi]
 ```
 
 import Catcher module to your project.
 
 ```python
-from hawkcatcher.modules.fastapi import HawkFastapi
+from hawk_python_sdk.modules.fastapi import HawkFastapi
 ```
 
 ```python
 app = FastAPI()
 
-hawk = HawkFastapi(
+hawk = HawkFastapi({
     'app_instance': app,
     'token': '1234567-abcd-8901-efgh-123456789012'
-)
+})
 ```
 
 Now all global fastapi errors would be sent to Hawk.
@@ -60,10 +60,10 @@ To init Hawk Catcher just pass a project token and FastAPI app instance.
 ```python
 app = FastAPI()
 
-hawk = HawkFastapi(
+hawk = HawkFastapi({
     'app_instance': app,
     'token': '1234567-abcd-8901-efgh-123456789012'
-)
+})
 ```
 
 ### Additional params

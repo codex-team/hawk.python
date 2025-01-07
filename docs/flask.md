@@ -5,13 +5,13 @@ This extension adds support for the [Flask](http://flask.pocoo.org/) web framewo
 ## Installation
 
 ```bash
-pip install hawkcatcher[flask]
+pip install hawk_python_sdk[flask]
 ```
 
 import Catcher module to your project.
 
 ```python
-from hawkcatcher.modules.flask import HawkFlask
+from hawk_python_sdk.modules.flask import HawkFlask
 ```
 
 ```python
