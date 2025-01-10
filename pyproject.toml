@@ -8,18 +8,18 @@ name = "hawk-python-sdk"
 authors = [{ name = "CodeX Team", email = "team@codex.so" }]
 description = "Python errors Catcher module for Hawk."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Bug Tracking",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.10",
     "Environment :: Console",
     "Environment :: Web Environment",
 ]
 [project.optional-dependencies]
 flask = ["flask"]
-fastapi = ["starlette"]
+fastapi = ["fastapi"]
 [tool.hatch.version]
 path = "src/hawk_python_sdk/__init__.py"
 [project.urls]

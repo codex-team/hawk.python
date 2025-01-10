@@ -106,7 +106,7 @@ Parameters:
 
 ## Requirements
 
-- Python \>= 3.9
+- Python \>= 3.10
 - requests
 
 ## Links

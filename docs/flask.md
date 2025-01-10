@@ -12,6 +12,7 @@ import Catcher module to your project.
 
 ```python
 from hawk_python_sdk.modules.flask import HawkFlask
+from hawk_python_sdk.modules.flask import HawkFlask
 ```
 
 ```python
