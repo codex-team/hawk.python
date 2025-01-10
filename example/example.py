@@ -1,5 +1,5 @@
 import os
-from hawkcatcher import Hawk
+from hawk_python_sdk import Hawk
 from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables from .env.

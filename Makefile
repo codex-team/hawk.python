@@ -1,5 +1,5 @@
 PIP=pip
-PYTHON=python
+PYTHON=python3
 
 all: help
 

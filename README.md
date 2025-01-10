@@ -10,10 +10,10 @@ If you want to connect specific frameworks see [Flask integration](./docs/flask.
 
 ### Install module
 
-Install `hawk_python_sdk` from PyPI.
+Install `hawk-python-sdk` from PyPI.
 
 ```shell
-$ pip install hawk_python_sdk
+$ pip install hawk-python-sdk
 ```
 
 Import Catcher module to your project.
@@ -115,6 +115,6 @@ Repository: <https://github.com/codex-team/hawk.python>
 
 Report a bug: <https://github.com/codex-team/hawk.python/issues>
 
-PyPI Package: <https://pypi.python.org/pypi/hawkcatcher>
+PyPI Package: <https://pypi.python.org/pypi/hawk-python-sdk>
 
 CodeX Team: <https://codex.so/>

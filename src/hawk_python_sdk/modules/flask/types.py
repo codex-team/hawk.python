@@ -1,4 +1,4 @@
-from hawkcatcher.types import HawkCatcherSettings, User, Addons
+from hawk_python_sdk.types import HawkCatcherSettings, User, Addons
 from typing import Callable, TypedDict
 from flask import Request
 

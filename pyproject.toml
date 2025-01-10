@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 [project]
 dynamic = ["version"]
 dependencies = ["requests"]
-name = "hawk_python_sdk"
+name = "hawk-python-sdk"
 authors = [{ name = "CodeX Team", email = "team@codex.so" }]
 description = "Python errors Catcher module for Hawk."
 readme = "README.md"
@@ -21,7 +21,7 @@ classifiers = [
 flask = ["flask"]
 fastapi = ["fastapi"]
 [tool.hatch.version]
-path = "src/hawkcatcher/__init__.py"
+path = "src/hawk_python_sdk/__init__.py"
 [project.urls]
 Homepage = "https://github.com/codex-team/hawk.python"
 Issues = "https://github.com/codex-team/hawk.python/issues"
