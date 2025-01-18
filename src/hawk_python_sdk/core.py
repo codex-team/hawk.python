@@ -46,7 +46,8 @@ class Hawk:
                 settings.get('token')),
             'release': settings.get('release'),
             'before_send': settings.get('before_send'),
-            'context': settings.get('context', None)
+            'context': settings.get('context', None),
+            'set_user': settings.get('set_user')
         }
 
     def handler(self, exc_cls: type, exc: Exception, tb: traceback, context=None, user=None):
