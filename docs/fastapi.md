@@ -12,7 +12,6 @@ import Catcher module to your project.
 
 ```python
 from hawk_python_sdk.modules.fastapi import HawkFastapi
-from hawk_python_sdk.modules.fastapi import HawkFastapi
 ```
 
 ```python
